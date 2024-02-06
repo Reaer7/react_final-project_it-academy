@@ -15,6 +15,7 @@ import { HomePage } from './pages/HomePage';
 import { Provider } from 'react-redux';
 import { store } from "../store";
 import { RegisterPage } from './pages/RegisterPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 type FirebaseUser = User | null;
 
@@ -25,6 +26,7 @@ export enum APP_URL {
     HOME = '/home',
     LOGIN = '/login',
     REGISTER = '/register',
+    PROFILE = '/profile',
 }
 
 export function App() {
@@ -61,11 +63,11 @@ export function App() {
                             </PrivateRoute>
                         } />
 
-                        {/*<Route path="/login" element={
-                            !currentUser?.emailVerified
-                                ? <LoginPage/>
-                                : <Navigate to='/' replace/>
-                        } />*/}
+                        <Route path={APP_URL.PROFILE} element={
+                            <PrivateRoute>
+                                <ProfilePage />
+                            </PrivateRoute>
+                        } />
 
                         <Route path={APP_URL.LOGIN} element={<LoginPage />} />
                         <Route path={APP_URL.REGISTER} element={<RegisterPage />} />

@@ -10,18 +10,25 @@ export type UserType = {
     photoUrl: string | null;
 };
 
-export type AuthType = {
-    user: UserType | null;
+export type UpdateUserNameType = {
+    displayName: string;
 };
 
-const initialState: AuthType = {
-    user: null,
-    /*id: '',
+export type UpdateUserEmailType = {
+    email: string;
+};
+
+export type UpdateUserEmailVerifiedType = {
+    emailVerified: boolean;
+};
+
+const initialState: UserType = {
+    id: '',
     accessToken: null,
     displayName: null,
     email: '',
     emailVerified: false,
-    photoUrl: null,*/
+    photoUrl: null,
 }
 
 export const authSlice = createSlice({
@@ -29,27 +36,39 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action: PayloadAction<UserType>) => {
-            state.user = action.payload;
-            /*state.id = action.payload.id;
+            state.id = action.payload.id;
             state.accessToken = action.payload.accessToken;
             state.displayName = action.payload.displayName;
             state.email = action.payload.email;
             state.emailVerified = action.payload.emailVerified;
-            state.photoUrl = action.payload.photoUrl;*/
+            state.photoUrl = action.payload.photoUrl;
+        },
+        updateMail: (state, action: PayloadAction<UpdateUserEmailType>) => {
+            state.email = action.payload.email;
+        },
+        updateName: (state, action: PayloadAction<UpdateUserNameType>) => {
+            state.displayName = action.payload.displayName;
+        },
+        updateEmailVerified: (state, action: PayloadAction<UpdateUserEmailVerifiedType>) => {
+            state.emailVerified = action.payload.emailVerified;
         },
         logout: (state) => {
-            state.user = null;
-
-            /* state.id = '';
+             state.id = '';
              state.accessToken = null;
              state.displayName = null;
              state.email = '';
              state.emailVerified = false;
-             state.photoUrl = null;*/
+             state.photoUrl = null;
         },
     },
 })
 
-export const { login, logout } = authSlice.actions;
+export const {
+    login,
+    updateMail,
+    updateName,
+    updateEmailVerified,
+    logout
+} = authSlice.actions;
 
 export default authSlice.reducer;

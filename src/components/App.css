@@ -1,52 +1,92 @@
 .App {
-  text-align: center;
-  background-color: black;
+    background-color: black;
+}
+
+.container {
+    width: 1200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 154px;
 }
 
 .header {
-  background-color: #3366bc;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #3366bc;
+    max-height: 100px;
+    display: flex;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
+
 .header nav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
 }
+
 .nav-link, .footer-link {
-  color: white;
-  font-weight: bold;
-  font-family: 'PT Sans', Arial, Helvetica, sans-serif;
-  text-shadow: 1px 1px 0 gray;
-  text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-family: 'PT Sans', Arial, Helvetica, sans-serif;
+    text-shadow: 1px 1px 0 gray;
+    text-decoration: none;
 }
+
+.signin {
+    width: 154px;
+    display: flex;
+    justify-content: end;
+}
+
+.signout {
+    width: 154px;
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+}
+
 .header, .footer {
-  left: 0;
-  right: 0;
-  min-height: 50px;
-  height: max-content;
-  font-size: calc(1px + 2vmin);
-  color: white;
-  padding: 10px 0;
+    left: 0;
+    right: 0;
+    min-height: 50px;
+    height: max-content;
+    font-size: calc(1px + 2vmin);
+    color: white;
+    padding: 10px 0;
 }
+
 .footer {
-  background-color: #606573;
+    background-color: #606573;
 }
 
 .content {
-  background-color: white;
-  min-height: calc(100vh - 4vmin - 20px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: black;
+    background-color: white;
+    min-height: calc(100vh - 4vmin - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: black;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-button {
+    background-color: transparent;
+    font-size: 18px;
+    border: none;
+    margin: 10px;
+    color: #005580;
+    cursor: pointer;
 }

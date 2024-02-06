@@ -1,5 +1,5 @@
 import { useStoreSelector } from "./useStoreSelector";
-import { AuthType, UserType } from "../store/auth";
+import { UserType } from "../store/auth";
 import { APP_URL } from "../components/App";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ export type AuthUserType = UserType & {
 
 export function useAuth() {
     const navigate = useNavigate();
-    const { user }: AuthType = useStoreSelector(state => state.auth);
+    const user: UserType = useStoreSelector(state => state.auth);
 
     if (!user) {
         navigate(`${APP_URL.ERROR}`, {
