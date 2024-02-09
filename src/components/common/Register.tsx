@@ -4,7 +4,7 @@ import { Form } from './Form';
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { login } from "../../store/auth";
 import { auth } from "../../config/firebase";
-import { APP_URL } from "../App";
+import { APP_URL } from "../pages/urls";
 
 export function Register() {
     const dispatch = useStoreDispatch();

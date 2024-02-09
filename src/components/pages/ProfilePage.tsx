@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { updateEmailVerified, updateMail, updateName } from "../../store/auth";
-import { APP_URL } from "../App";
+import { APP_URL } from "./urls";
 import { useNavigate } from "react-router-dom";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 

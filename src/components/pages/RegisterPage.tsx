@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Register } from '../common/Register';
-import { APP_URL } from "../App";
+import { APP_URL } from "./urls";
 
 export function RegisterPage() {
     return <div>

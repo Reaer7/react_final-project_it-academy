@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import './App.css';
 import { Navigate } from "react-router";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { auth } from "../config/firebase";
 import { Footer } from './layouts/Footer';
 import { Header } from './layouts/Header';
 import { Content } from './layouts/Content';
@@ -16,18 +14,9 @@ import { Provider } from 'react-redux';
 import { store } from "../store";
 import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { APP_URL } from './pages/urls';
 
 type FirebaseUser = User | null;
-
-export enum APP_URL {
-    ALL = '*',
-    ERROR = '/error',
-    ROOT = '/',
-    HOME = '/home',
-    LOGIN = '/login',
-    REGISTER = '/register',
-    PROFILE = '/profile',
-}
 
 export function App() {
     /*const [currentUser, setCurrentUser] = useState<FirebaseUser>(null)
@@ -79,6 +68,3 @@ export function App() {
         </BrowserRouter>
     </div>
 }
-
-// --- LOAD DATA --- //
-// navigate('/error', { state: { message: 'Something went wrong with download data!' } });

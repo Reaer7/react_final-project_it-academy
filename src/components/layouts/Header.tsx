@@ -1,8 +1,9 @@
 import { Link, Navigate } from "react-router-dom";
 import { AuthUserType, useAuth } from "../../hooks/useAuth";
-import { APP_URL } from "../App";
 import { logout } from "../../store/auth";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
+import { FormattedMessage } from 'react-intl';
+import { APP_URL } from "../pages/urls";
 
 export function Header() {
     const dispatch = useStoreDispatch();
@@ -10,7 +11,7 @@ export function Header() {
 
     function handleClick() {
         dispatch(logout());
-        return <Navigate to={APP_URL.ROOT} replace />
+        return <Navigate to={APP_URL.ROOT} replace/>
     }
 
     return <header className="header">
@@ -18,22 +19,40 @@ export function Header() {
             <img
                 className="logo"
                 alt="logo"
-                src="../../../public/vflm-logo.png"
+                src="./../../../public/vflm-logo.png"
             />
             <nav>
-                <Link className="nav-link" to={APP_URL.ROOT}>Root</Link>
-                <Link className="nav-link" to={APP_URL.HOME}>Home</Link>
-                <Link className="nav-link" to='/ui/mui'>MaterialUI</Link>
+                <Link className="nav-link" to={APP_URL.ROOT}>
+                    <FormattedMessage
+                        id="header.root"
+                    />
+                </Link>
+                <Link className="nav-link" to={APP_URL.HOME}>
+                    <FormattedMessage
+                        id="header.main"
+                    />
+                </Link>
+                <Link className="nav-link" to='/ui/mui'>
+                    <FormattedMessage
+                        id="header.test"
+                    />
+                </Link>
                 {isAuth && <Link className="nav-link" to={APP_URL.PROFILE}>
-					Profile
-				</Link>}
+                    <FormattedMessage
+                        id="header.profile"
+                    />
+                </Link>}
             </nav>
             {!isAuth
                 ? <Link className="nav-link signin" to={APP_URL.LOGIN}>
-                    Login
+                    <FormattedMessage
+                        id="header.login"
+                    />
                 </Link>
                 : <div className="nav-link signout" onClick={handleClick}>
-                    Logout
+                    <FormattedMessage
+                        id="header.logout"
+                    />
                 </div>
             }
         </div>

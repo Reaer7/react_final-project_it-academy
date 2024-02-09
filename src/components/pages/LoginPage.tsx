@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Login } from '../common/Login';
-import { APP_URL } from "../App";
+import { APP_URL } from "./urls";
 
 export function LoginPage() {
     return <div>

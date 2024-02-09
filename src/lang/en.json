@@ -1,0 +1,11 @@
+{
+  "header.root": "Root",
+  "header.main": "Main",
+  "header.login": "Login",
+  "header.logout": "Logout",
+  "header.profile": "Profile",
+  "header.test": "Lokalise",
+  "page.root.head": "This is root page",
+  "page.home.head": "Welcome, {name}!",
+  "page.root.description": "You can visit <Link to={{# link}}>Home page</Link> if you already authorized"
+}

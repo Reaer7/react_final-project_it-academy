@@ -4,13 +4,13 @@ import { Form } from './Form';
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { login } from "../../store/auth";
 import { auth } from "../../config/firebase";
-import { APP_URL } from "../App";
+import { APP_URL } from "../pages/urls";
 
 export function Login() {
     const dispatch = useStoreDispatch();
     const navigate = useNavigate();
 
-    async function handleLogin (email: string, password: string) {
+    async function handleLogin(email: string, password: string) {
         try {
             const { user } = await signInWithEmailAndPassword(auth, email, password);
             dispatch(login({
@@ -22,7 +22,7 @@ export function Login() {
                 photoUrl: user.photoURL || null,
             }));
             navigate(`${APP_URL.HOME}`, { state: { name: user.displayName } });
-        } catch(error) {
+        } catch (error) {
             if (error instanceof Error) {
                 console.log(error.message);
             }

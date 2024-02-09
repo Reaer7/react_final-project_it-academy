@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
+import { APP_URL } from "./urls";
 
 export function RootPage() {
     return <div>
-        <h1>This is root page</h1>
+        <h1>
+            <FormattedMessage
+                id="page.root.head"
+            />
+        </h1>
         <p>
-            You can visit <Link to="/home">Home page</Link> if you already authorized
+            <FormattedMessage
+                id="page.root.description"
+                values={{ link: APP_URL.HOME }}
+            />
         </p>
     </div>
 }
