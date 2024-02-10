@@ -5,13 +5,16 @@ import {
     updateProfile,
     User,
     validatePassword,
-    applyActionCode,
+    // applyActionCode,
 } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { updateEmailVerified, updateMail, updateName } from "../../store/auth";
 import { APP_URL } from "./urls";
 import { useNavigate } from "react-router-dom";
+// import ReactDOMServer from 'react-dom/server'
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
+import { FormattedMessage } from "react-intl";
+import { FormattedButton } from "../common/FormattedButton";
 
 export function ProfilePage() {
     const dispatch = useStoreDispatch();
@@ -23,7 +26,19 @@ export function ProfilePage() {
             let isValidName: boolean = false;
             let name: string = '';
             while (!isValidName) {
-                name = prompt("Enter your new name...")!;
+                /*TODO: fix
+                console.log("before")
+                const message: string = ReactDOMServer.renderToString(
+                    <FormattedMessage
+                        id="page.profile.enter.name"
+                    />
+                );
+                console.log("message", message)
+
+                name = prompt(message)!;
+                console.log("after")*/
+
+                name = prompt("Enter your name")!;
                 isValidName = name !== null && name.trim().length !== 0;
             }
 
@@ -96,39 +111,61 @@ export function ProfilePage() {
                     emailVerified: true,
                 }));
             }
+            /*TODO: fix
+            alert(<FormattedMessage
+                id="page.profile.send.verification"
+            />);*/
+            alert("На ваш email отправлено письмо для верификации");
+
             navigate(`${APP_URL.PROFILE}`);
         } catch (error) {
             if (error instanceof Error) {
                 console.log(error.message);
             }
-            alert("Cannot update user email verified!");
+            /*TODO: fix
+            alert(<FormattedMessage
+                id="page.profile.not.send.verification"
+            />);*/
+            alert("Сбой при отправке верификационного письма. Попробуйте еще раз");
         }
     }
 
     return <div>
         {authUser?.displayName && <p>
-			<strong>Name:</strong> {authUser.displayName}
+			<FormattedMessage
+				id="page.profile.name"
+				values={{ name: authUser.displayName }}
+			/>
 		</p>}
         <p>
-            <strong>Email:</strong> {authUser?.email}
+            <FormattedMessage
+                id="page.profile.email"
+                values={{ email: authUser?.email }}
+            />
         </p>
         {authUser?.emailVerified && <p>
-			<strong>Email verified:</strong> {authUser.emailVerified}
+			<FormattedMessage
+				id="page.profile.isverified"
+			/>
 		</p>}
         {!!authUser
             ? <div className="profile-content">
-                <button className="profile-button" onClick={updateUserName}>
-                    Change name
-                </button>
-                <button className="profile-button" onClick={updateUserPassword}>
-                    Change password
-                </button>
-                <button className="profile-button" onClick={updateUserEmail}>
-                    Change email
-                </button>
-                <button className="profile-button" onClick={verifyUserEmail}>
-                    Verify email
-                </button>
+                <FormattedButton
+                    messageId={"page.profile.change.name"}
+                    clickHandler={updateUserName}
+                />
+                <FormattedButton
+                    messageId={"page.profile.change.password"}
+                    clickHandler={updateUserPassword}
+                />
+                <FormattedButton
+                    messageId={"page.profile.change.email"}
+                    clickHandler={updateUserEmail}
+                />
+                {!authUser?.emailVerified && <FormattedButton
+					messageId={"page.profile.verify.email"}
+					clickHandler={verifyUserEmail}
+				/>}
             </div>
             : <></>
         }
