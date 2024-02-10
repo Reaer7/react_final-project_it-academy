@@ -15,6 +15,7 @@ import { store } from "../store";
 import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { APP_URL } from './pages/urls';
+import { FormattedMessage } from "react-intl";
 
 type FirebaseUser = User | null;
 
@@ -37,11 +38,15 @@ export function App() {
                         <Route path={APP_URL.ERROR} element={<ErrorPage />} />
                         <Route path={APP_URL.ALL} element={
                             <Navigate to={APP_URL.ERROR}
+                                      /*TODO: fix
+                                      state={{ message:  <FormattedMessage
+                                              id="message.404"
+                                          /> }}*/
                                       state={{ message: 'Page not found!' }}
                                       replace={true}
                             />}
                         />
-
+                        'Page not found!'
                         <Route id="root" path={APP_URL.ROOT} element={
                             <RootPage />
                         } />

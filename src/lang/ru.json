@@ -6,6 +6,8 @@
   "header.profile": "Профиль",
   "header.test": "Lokalise",
   "page.root.head": "Это стартовая страница",
+  "page.error.head": "Упс!",
+  "page.error.link.root": "Перейти на главную страницу",
   "page.profile.name": "Имя: {name}",
   "page.profile.enter.name": "Введите ваше Имя",
   "page.profile.change.name": "Изменить имя",
@@ -17,5 +19,6 @@
   "page.profile.send.verification": "На ваш email отправлено письмо для верификации",
   "page.profile.not.send.verification": "Сбой при отправке верификационного письма. Попробуйте еще раз",
   "page.home.head": "Добро пожаловать, {name}!",
-  "page.root.description": "Вы можете посетить <Link to={link}>Домашнюю страницу</Link> если вы уже авторизированы"
+  "page.root.description": "Вы можете посетить <Link to={link}>Домашнюю страницу</Link>, если вы уже авторизированы",
+  "message.404": "Страница не найдена!"
 }

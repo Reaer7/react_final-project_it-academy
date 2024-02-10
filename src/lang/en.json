@@ -6,6 +6,8 @@
   "header.profile": "Profile",
   "header.test": "Lokalise",
   "page.root.head": "This is root page",
+  "page.error.head": "Oops!",
+  "page.error.link.root": "Go to Home",
   "page.profile.name": "Name: {name}",
   "page.profile.enter.name": "Enter your name",
   "page.profile.change.name": "Change name",
@@ -17,5 +19,6 @@
   "page.profile.send.verification": "Verification is sent to your email",
   "page.profile.not.send.verification": "Cannot update user email verified!",
   "page.home.head": "Welcome, {name}!",
-  "page.root.description": "You can visit <Link to={{# link}}>Home page</Link> if you already authorized"
+  "page.root.description": "You can visit <Link to={{# link}}>Home page</Link> if you already authorized",
+  "message.404": "Page not found!"
 }
