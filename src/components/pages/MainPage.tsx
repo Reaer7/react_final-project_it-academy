@@ -1,15 +1,15 @@
 import { AuthUserType, useAuth } from "../../hooks/useAuth";
 import { FormattedMessage } from "react-intl";
 
-export function HomePage() {
+export function MainPage() {
     const { displayName }: AuthUserType = useAuth()!;
 
-    return <div>
-        <h1>
+    return <div className="content-container">
+        <h3>
             <FormattedMessage
                 id="page.home.head"
                 values={{ name: !!displayName && `${displayName}` }}
             />
-        </h1>
+        </h3>
     </div>
 }

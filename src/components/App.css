@@ -1,3 +1,9 @@
+html, body {
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 .App {
     background-color: black;
 }
@@ -10,17 +16,19 @@
     justify-content: center;
 }
 
+.content-container {
+    width: 1200px;
+}
+
 .logo {
     width: 154px;
 }
 
 .header {
     background-color: #3366bc;
-    max-height: 100px;
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    top: 0;
     font-size: calc(10px + 2vmin);
-    color: white;
 }
 
 .header nav {
@@ -39,6 +47,11 @@
     text-decoration: none;
 }
 
+.footer-text {
+    font-size: 16px;
+    font-family: 'PT Sans', Arial, Helvetica, sans-serif;
+}
+
 .signin {
     width: 154px;
     display: flex;
@@ -55,6 +68,9 @@
 .header, .footer {
     left: 0;
     right: 0;
+    display: flex;
+    justify-content: center;
+    max-height: 100px;
     min-height: 50px;
     height: max-content;
     font-size: calc(1px + 2vmin);
@@ -64,11 +80,14 @@
 
 .footer {
     background-color: #606573;
+    position: absolute;
+    bottom: 0;
 }
 
 .content {
     background-color: white;
-    min-height: calc(100vh - 4vmin - 20px);
+    height: 100%;
+    min-height: calc(100vh - 200px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -89,4 +108,26 @@
     margin: 10px;
     color: #005580;
     cursor: pointer;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-input {
+    font-size: 20px;
+    padding: 4px;
+}
+
+.form-button {
+    font-size: 24px;
+    padding: 4px;
+}
+
+.login-button {
+    font-size: 24px;
+    padding: 4px;
+    margin-top: 20px;
 }

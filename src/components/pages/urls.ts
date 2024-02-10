@@ -2,7 +2,7 @@ export enum APP_URL {
     ALL = '*',
     ERROR = '/error',
     ROOT = '/',
-    HOME = '/home',
+    MAIN = '/main',
     LOGIN = '/login',
     REGISTER = '/register',
     PROFILE = '/profile',

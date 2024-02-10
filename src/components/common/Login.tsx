@@ -1,67 +1,39 @@
-import { useNavigate } from 'react-router-dom';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { Form } from './Form';
-import { useStoreDispatch } from "../../hooks/useStoreDispatch";
-import { login } from "../../store/auth";
-import { auth } from "../../config/firebase";
-import { APP_URL } from "../pages/urls";
+import { FormattedMessage } from "react-intl";
+import { useState } from "react";
+import { SignInWithGoogle } from "./SignInWithGoogle";
+import { UserLogic } from "../util/UserLogic";
 
 export function Login() {
-    const dispatch = useStoreDispatch();
-    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const userLogic = new UserLogic();
 
-    async function handleLogin(email: string, password: string) {
-        try {
-            const { user } = await signInWithEmailAndPassword(auth, email, password);
-            dispatch(login({
-                id: user.uid,
-                accessToken: user.refreshToken || null,
-                displayName: user.displayName || null,
-                email: user.email,
-                emailVerified: user.emailVerified,
-                photoUrl: user.photoURL || null,
-            }));
-            navigate(`${APP_URL.HOME}`, { state: { name: user.displayName } });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.log(error.message);
-            }
-            alert('Invalid user!');
-        }
-    }
-
-    async function signInWithGoogle() {
-        try {
-            const { user } = await signInWithPopup(auth, new GoogleAuthProvider());
-            if (user && user.email) {
-                dispatch(login({
-                    id: user.uid,
-                    accessToken: user.refreshToken || null,
-                    displayName: user.displayName || null,
-                    email: user.email,
-                    emailVerified: user.emailVerified,
-                    photoUrl: user.photoURL || null,
-                }));
-            }
-            navigate(`${APP_URL.HOME}`, { state: { name: user.displayName } });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.log(error.message);
-            }
-            alert("Invalid user credential!");
-        }
-    }
-
+    //TODO: change to Form
     return <>
-        <Form
-            title="login"
-            handleClick={handleLogin}
-        />
-        <button
-            type="button"
-            onClick={signInWithGoogle}
-        >
-            Sign in by Google
-        </button>
+        <div className="form">
+            <input
+                className="form-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email"
+            />
+            <input
+                className="form-input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="password"
+            />
+            <button
+                className="form-button"
+                onClick={() => userLogic.handleLogin(email, password)}
+            >
+                {<FormattedMessage
+                    id="page.login.message"
+                />}
+            </button>
+        </div>
+        <SignInWithGoogle />
     </>
 }

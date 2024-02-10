@@ -1,13 +1,27 @@
 import { Link } from 'react-router-dom';
 import { Login } from '../common/Login';
 import { APP_URL } from "./urls";
+import { FormattedMessage } from "react-intl";
 
 export function LoginPage() {
     return <div>
-        <h1>Login</h1>
+        <h3>
+            <FormattedMessage
+                id="page.login.head"
+            />
+        </h3>
         <Login />
         <p>
-            Or <Link to={APP_URL.REGISTER}>register</Link>
+            <FormattedMessage
+                id="page.login.description"
+                values={{
+                    link: <Link to={APP_URL.REGISTER}>
+                        <FormattedMessage
+                            id="page.login.description.redirect"
+                        />
+                    </Link>
+                }}
+            />
         </p>
     </div>
 }

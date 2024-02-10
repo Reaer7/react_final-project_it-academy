@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { APP_URL } from "../components/pages/urls";
 
 export type AuthUserType = UserType & {
+    isLogin: boolean;
     isAuth: boolean;
 }
 
@@ -17,7 +18,8 @@ export function useAuth() {
         });
     } else {
         return {
-            isAuth: !!user.email,
+            isLogin: !!user.email,
+            isAuth: user.emailVerified,
             ...user
         };
     }

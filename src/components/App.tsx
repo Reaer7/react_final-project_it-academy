@@ -9,17 +9,19 @@ import { ErrorPage } from './pages/ErrorPage';
 import { PrivateRoute } from './common/PrivateRoute';
 import { LoginPage } from "./pages/LoginPage";
 import { User } from 'firebase/auth';
-import { HomePage } from './pages/HomePage';
+import { MainPage } from './pages/MainPage';
 import { Provider } from 'react-redux';
 import { store } from "../store";
 import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { APP_URL } from './pages/urls';
-import { FormattedMessage } from "react-intl";
+import { AuthRoute } from "./common/AuthRoute";
+import { useIntl } from 'react-intl';
 
 type FirebaseUser = User | null;
 
 export function App() {
+    const intl = useIntl()
     /*const [currentUser, setCurrentUser] = useState<FirebaseUser>(null)
     const [isActive, setIsActive] = useState<boolean>(false)
 
@@ -35,36 +37,43 @@ export function App() {
                 <Header />
                 <Content>
                     <Routes>
-                        <Route path={APP_URL.ERROR} element={<ErrorPage />} />
+                        <Route path={APP_URL.ERROR} element={
+                            <ErrorPage />
+                        } />
+
                         <Route path={APP_URL.ALL} element={
                             <Navigate to={APP_URL.ERROR}
-                                      /*TODO: fix
-                                      state={{ message:  <FormattedMessage
-                                              id="message.404"
-                                          /> }}*/
-                                      state={{ message: 'Page not found!' }}
-                                      replace={true}
+                                      state={{
+                                          message: intl.formatMessage({
+                                              id: "message.404"
+                                          })
+                                      }}
                             />}
                         />
-                        'Page not found!'
+
                         <Route id="root" path={APP_URL.ROOT} element={
                             <RootPage />
                         } />
 
-                        <Route path={APP_URL.HOME} element={
+                        <Route path={APP_URL.MAIN} element={
                             <PrivateRoute>
-                                <HomePage />
+                                <MainPage />
                             </PrivateRoute>
                         } />
 
                         <Route path={APP_URL.PROFILE} element={
-                            <PrivateRoute>
+                            <AuthRoute>
                                 <ProfilePage />
-                            </PrivateRoute>
+                            </AuthRoute>
                         } />
 
-                        <Route path={APP_URL.LOGIN} element={<LoginPage />} />
-                        <Route path={APP_URL.REGISTER} element={<RegisterPage />} />
+                        <Route path={APP_URL.LOGIN} element={
+                            <LoginPage />
+                        } />
+
+                        <Route path={APP_URL.REGISTER} element={
+                            <RegisterPage />
+                        } />
 
                     </Routes>
                 </Content>

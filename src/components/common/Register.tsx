@@ -1,39 +1,47 @@
-import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Form } from './Form';
-import { useStoreDispatch } from "../../hooks/useStoreDispatch";
-import { login } from "../../store/auth";
-import { auth } from "../../config/firebase";
-import { APP_URL } from "../pages/urls";
+import { FormattedMessage } from "react-intl";
+import { useState } from "react";
+import { SignInWithGoogle } from "./SignInWithGoogle";
+import { UserLogic } from "../util/UserLogic";
 
 export function Register() {
-    const dispatch = useStoreDispatch();
-    const navigate = useNavigate();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const userLogic = new UserLogic();
 
-    async function handleRegister(email: string, password: string) {
-        try {
-            const { user } = await createUserWithEmailAndPassword(auth, email, password);
-            dispatch(login({
-                id: user.uid,
-                accessToken: user.refreshToken,
-                displayName: user.displayName,
-                email: user.email,
-                emailVerified: user.emailVerified,
-                photoUrl: user.photoURL,
-            }));
-            navigate(`${APP_URL.ROOT}`);
-        } catch (error) {
-            if (error instanceof Error) {
-                console.log(error.message);
-            }
-            navigate(`${APP_URL.ERROR}`, {
-                state: { message: 'Something went wrong with create user!' }
-            });
-        }
-    }
-
-    return <Form
-        title="register"
-        handleClick={handleRegister}
-    />
+    //TODO: change to Form
+    return <>
+        <div className="form">
+            <input
+                className="form-input"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="name"
+            />
+            <input
+                className="form-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email"
+            />
+            <input
+                className="form-input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="password"
+            />
+            <button
+                className="form-button"
+                onClick={() => userLogic.handleRegister(name, email, password)}
+            >
+                {<FormattedMessage
+                    id="page.register.message"
+                />}
+            </button>
+        </div>
+        <SignInWithGoogle />
+    </>
 }

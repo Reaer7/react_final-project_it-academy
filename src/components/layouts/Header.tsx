@@ -7,7 +7,7 @@ import { APP_URL } from "../pages/urls";
 
 export function Header() {
     const dispatch = useStoreDispatch();
-    const { isAuth }: AuthUserType = useAuth()!;
+    const { isAuth, isLogin }: AuthUserType = useAuth()!;
 
     function handleClick() {
         dispatch(logout());
@@ -19,7 +19,7 @@ export function Header() {
             <img
                 className="logo"
                 alt="logo"
-                src="./../../../public/vflm-logo.png"
+                src={require("../../images/vflm-logo.png")}
             />
             <nav>
                 <Link className="nav-link" to={APP_URL.ROOT}>
@@ -27,33 +27,28 @@ export function Header() {
                         id="header.root"
                     />
                 </Link>
-                <Link className="nav-link" to={APP_URL.HOME}>
+                {isAuth && <Link className="nav-link" to={APP_URL.MAIN}>
                     <FormattedMessage
                         id="header.main"
                     />
-                </Link>
-                <Link className="nav-link" to='/ui/mui'>
-                    <FormattedMessage
-                        id="header.test"
-                    />
-                </Link>
-                {isAuth && <Link className="nav-link" to={APP_URL.PROFILE}>
+                </Link>}
+                {isLogin && <Link className="nav-link" to={APP_URL.PROFILE}>
                     <FormattedMessage
                         id="header.profile"
                     />
                 </Link>}
             </nav>
-            {!isAuth
-                ? <Link className="nav-link signin" to={APP_URL.LOGIN}>
-                    <FormattedMessage
-                        id="header.login"
-                    />
-                </Link>
-                : <div className="nav-link signout" onClick={handleClick}>
+            {isLogin
+                ? <div className="nav-link signout" onClick={handleClick}>
                     <FormattedMessage
                         id="header.logout"
                     />
                 </div>
+                : <Link className="nav-link signin" to={APP_URL.LOGIN}>
+                    <FormattedMessage
+                        id="header.login"
+                    />
+                </Link>
             }
         </div>
     </header>;
