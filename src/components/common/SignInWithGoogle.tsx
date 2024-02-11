@@ -4,12 +4,15 @@ import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { login } from "../../store/auth";
 import { auth } from "../../config/firebase";
 import { APP_URL } from "../pages/urls";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
+import { Alert, Button } from "@mui/material";
+import { useState } from "react";
+import { CustomSnackbar } from "./CustomSnackbar";
 
 export function SignInWithGoogle() {
     const dispatch = useStoreDispatch();
     const navigate = useNavigate();
-    const intl = useIntl()
+    const [showError, setShowError] = useState<boolean>(false);
 
     async function signInWithGoogle() {
         try {
@@ -29,25 +32,33 @@ export function SignInWithGoogle() {
             if (error instanceof Error) {
                 console.log(error.message);
             }
-            const message: string = intl.formatMessage({
-                id: "message.401"
-            });
-            alert(message);
+
+            setShowError(true);
         }
     }
 
-    return <button
-        className="login-button"
-        type="button"
-        onClick={signInWithGoogle}
-    >
-        {/*TODO: fix*/}
-        {/*<img alt="google logo"*/}
-        {/*     src={require("../../../public/google_icon.svg")}*/}
-        {/*     width="20px"*/}
-        {/*/>*/}
-        <FormattedMessage
-            id="page.login.google"
-        />
-    </button>
+    return <>
+        <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={signInWithGoogle}
+        >
+            {/*TODO: fix*/}
+            {/*<img alt="google logo"*/}
+            {/*     src={require("../../images/google_icon.svg")}*/}
+            {/*     width="20px"*/}
+            {/*/>*/}
+            <FormattedMessage id="page.login.google" />
+        </Button>
+        <CustomSnackbar
+            showSnackbar={showError}
+            setShowSnackbar={setShowError}
+        >
+            <Alert variant="filled" severity="error">
+                <FormattedMessage id="message.401" />
+            </Alert>
+        </CustomSnackbar>
+    </>
 }

@@ -102,32 +102,8 @@ html, body {
 }
 
 .profile-button {
-    background-color: transparent;
     font-size: 18px;
-    border: none;
     margin: 10px;
     color: #005580;
-    cursor: pointer;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.form-input {
-    font-size: 20px;
-    padding: 4px;
-}
-
-.form-button {
-    font-size: 24px;
-    padding: 4px;
-}
-
-.login-button {
-    font-size: 24px;
-    padding: 4px;
-    margin-top: 20px;
+    /*cursor: pointer;*/
 }

@@ -17,23 +17,50 @@ import { ProfilePage } from './pages/ProfilePage';
 import { APP_URL } from './pages/urls';
 import { AuthRoute } from "./common/AuthRoute";
 import { useIntl } from 'react-intl';
+import { useEffect, useState } from 'react';
+import { auth } from '../config/firebase';
+import { login } from "../store/auth";
+import { useStoreDispatch } from "../hooks/useStoreDispatch";
 
 type FirebaseUser = User | null;
 
 export function App() {
     const intl = useIntl()
-    /*const [currentUser, setCurrentUser] = useState<FirebaseUser>(null)
-    const [isActive, setIsActive] = useState<boolean>(false)
+    const [currentUser, setCurrentUser] = useState<FirebaseUser>(
+        JSON.parse(localStorage.getItem("user") ?? '{}')
+    );
 
     useEffect(() => {
         auth.onAuthStateChanged((user: FirebaseUser) => {
-            setCurrentUser(user)
-        })
-    }, [])*/
+            setCurrentUser(user);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(user)
+            );
+        });
+    }, [])
+
+    function RefreshUser() {
+        const dispatch = useStoreDispatch();
+
+        if (currentUser) {
+            dispatch(login({
+                id: currentUser.uid,
+                accessToken: currentUser.refreshToken || null,
+                displayName: currentUser.displayName || null,
+                email: currentUser.email,
+                emailVerified: currentUser.emailVerified,
+                photoUrl: currentUser.photoURL || null,
+            }));
+        }
+
+        return <></>
+    }
 
     return <div className="App">
         <BrowserRouter>
             <Provider store={store}>
+                <RefreshUser />
                 <Header />
                 <Content>
                     <Routes>

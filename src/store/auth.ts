@@ -18,10 +18,6 @@ export type UpdateUserEmailType = {
     email: string;
 };
 
-export type UpdateUserEmailVerifiedType = {
-    emailVerified: boolean;
-};
-
 const initialState: UserType = {
     id: '',
     accessToken: null,
@@ -49,9 +45,6 @@ export const authSlice = createSlice({
         updateName: (state, action: PayloadAction<UpdateUserNameType>) => {
             state.displayName = action.payload.displayName;
         },
-        updateEmailVerified: (state, action: PayloadAction<UpdateUserEmailVerifiedType>) => {
-            state.emailVerified = action.payload.emailVerified;
-        },
         logout: (state) => {
              state.id = '';
              state.accessToken = null;
@@ -67,7 +60,6 @@ export const {
     login,
     updateMail,
     updateName,
-    updateEmailVerified,
     logout
 } = authSlice.actions;
 

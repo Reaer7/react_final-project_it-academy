@@ -1,39 +1,97 @@
-import { FormattedMessage } from "react-intl";
-import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { SignInWithGoogle } from "./SignInWithGoogle";
-import { UserLogic } from "../util/UserLogic";
+import { Alert, Box, Button, TextField } from "@mui/material";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { login } from "../../store/auth";
+import { APP_URL } from "../pages/urls";
+import { useStoreDispatch } from "../../hooks/useStoreDispatch";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { CustomSnackbar } from "./CustomSnackbar";
 
 export function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const userLogic = new UserLogic();
+    const dispatch = useStoreDispatch();
+    const navigate = useNavigate();
+    const intl = useIntl();
+    const [showError, setShowError] = useState<boolean>(false);
 
-    //TODO: change to Form
-    return <>
-        <div className="form">
-            <input
-                className="form-input"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="email"
-            />
-            <input
-                className="form-input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="password"
-            />
-            <button
-                className="form-button"
-                onClick={() => userLogic.handleLogin(email, password)}
-            >
-                {<FormattedMessage
-                    id="page.login.message"
-                />}
-            </button>
-        </div>
+    async function handleLogin(email: FormDataEntryValue | null, password: FormDataEntryValue | null) {
+        if (email === null || password === null) {
+            return;
+        }
+        try {
+            const { user } = await signInWithEmailAndPassword(
+                auth,
+                email.toString(),
+                password.toString()
+            );
+            dispatch(login({
+                id: user.uid,
+                accessToken: user.refreshToken || null,
+                displayName: user.displayName || null,
+                email: user.email,
+                emailVerified: user.emailVerified,
+                photoUrl: user.photoURL || null,
+            }));
+
+            if (!user.emailVerified) {
+                navigate(`${APP_URL.PROFILE}`);
+            } else {
+                navigate(`${APP_URL.MAIN}`, { state: { name: user.displayName } });
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message);
+            }
+
+            setShowError(true);
+        }
+    }
+
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        handleLogin(data.get('email'), data.get('password'));
+    }
+
+    return <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label={intl.formatMessage({ id: "text.email" })}
+            name="email"
+            autoComplete="email"
+            autoFocus
+        />
+        <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label={intl.formatMessage({ id: "text.password" })}
+            type="password"
+            id="password"
+            autoComplete="current-password"
+        />
+        <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+        >
+            <FormattedMessage id="page.login.message" />
+        </Button>
         <SignInWithGoogle />
-    </>
+        <CustomSnackbar
+            showSnackbar={showError}
+            setShowSnackbar={setShowError}
+        >
+            <Alert variant="filled" severity="error">
+                <FormattedMessage id="message.401" />
+            </Alert>
+        </CustomSnackbar>
+    </Box>
 }

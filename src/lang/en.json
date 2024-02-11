@@ -8,6 +8,7 @@
   "page.root.description": "You can visit {link} if you already authorized and your email is verified",
   "page.root.description.redirect": "Main page",
   "page.login.head": "Login",
+  "page.login.message": "Login",
   "page.login.description": "Or",
   "page.login.description.redirect": "register",
   "page.login.google": "Sign in by Google",
@@ -29,11 +30,17 @@
   "page.profile.change.email": "Change email",
   "page.profile.not.change.email": "Cannot update user email!",
   "page.profile.verify.email": "Verify email",
-  "page.profile.isverified": "Email is verified",
   "page.profile.send.verification": "Verification is sent to your email",
   "page.profile.not.send.verification": "Cannot update user email verified!",
+  "page.profile.delete.user": "Delete account",
+  "page.profile.not.delete.user": "Something went wrong with account delete",
   "page.home.head": "Welcome, {name}!",
-  "message.503": "Something went wrong with create user!",
+  "message.503": "Something went wrong with user create!",
   "message.404": "Page not found!",
-  "message.401": "Invalid user credential!"
+  "message.401": "Invalid user credential!",
+  "text.name": "Name",
+  "text.email": "Email",
+  "text.password": "Password",
+  "text.yes": "Yes",
+  "text.no": "No"
 }

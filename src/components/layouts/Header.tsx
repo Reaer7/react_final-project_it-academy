@@ -11,6 +11,7 @@ export function Header() {
 
     function handleClick() {
         dispatch(logout());
+        localStorage.removeItem("user");
         return <Navigate to={APP_URL.ROOT} replace/>
     }
 
