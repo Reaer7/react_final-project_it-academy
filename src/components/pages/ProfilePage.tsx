@@ -11,8 +11,6 @@ import {
     CircularProgress,
     Dialog,
     DialogActions,
-    DialogContent,
-    DialogContentText,
     DialogTitle,
     Slide,
 } from "@mui/material";
@@ -20,7 +18,7 @@ import { APP_URL } from "./urls";
 import { logout, updateMail, updateName } from "../../store/auth";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { useNavigate } from "react-router-dom";
-import { forwardRef, ReactElement, Ref, useState } from "react";
+import { forwardRef, ReactElement, Ref, useEffect, useState } from "react";
 import { TransitionProps } from '@mui/material/transitions';
 
 const Transition = forwardRef(function Transition(
@@ -37,7 +35,14 @@ export function ProfilePage() {
     const navigate = useNavigate();
     const intl = useIntl();
     const authUser: User | null = auth.currentUser;
+    // const [authUser, setAuthUser] = useState<User | null>(auth.currentUser);
     const userLogic = new UserLogic();
+
+    // useEffect(() => {
+    //     if (auth.currentUser) {
+    //         setAuthUser(auth.currentUser);
+    //     }
+    // }, [auth.currentUser]);
 
     async function updateUserName() {
         try {

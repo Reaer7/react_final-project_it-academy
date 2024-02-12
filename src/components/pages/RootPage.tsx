@@ -36,6 +36,7 @@ export function RootPage() {
         <CustomSnackbar
             showSnackbar={showNotification}
             setShowSnackbar={setShowNotification}
+            autoHideDuration={4000}
         >
             <Alert variant="filled" severity="success">
                 <FormattedMessage id="page.profile.send.verification" />

@@ -18,13 +18,36 @@ export type UpdateUserEmailType = {
     email: string;
 };
 
-const initialState: UserType = {
-    id: '',
-    accessToken: null,
-    displayName: null,
-    email: '',
-    emailVerified: false,
-    photoUrl: null,
+const getUserFromLocalStorage = (): UserType | undefined => {
+    if (isLocalStorageAvailable()) {
+        const userString: string | null = localStorage.getItem("user");
+        if (userString) {
+            return JSON.parse(userString);
+        }
+    } else {
+        return {
+            id: '',
+            accessToken: null,
+            displayName: null,
+            email: '',
+            emailVerified: false,
+            photoUrl: null,
+        };
+    }
+}
+
+const initialState: UserType = <UserType>{
+    ...getUserFromLocalStorage()
+}
+
+function isLocalStorageAvailable() {
+    try {
+        localStorage.setItem("test", "test");
+        localStorage.removeItem("test");
+        return true;
+    } catch (error) {
+        return false;
+    }
 }
 
 export const authSlice = createSlice({
@@ -38,6 +61,10 @@ export const authSlice = createSlice({
             state.email = action.payload.email;
             state.emailVerified = action.payload.emailVerified;
             state.photoUrl = action.payload.photoUrl;
+
+            if (isLocalStorageAvailable()) {
+                localStorage.setItem("user", JSON.stringify(action.payload));
+            }
         },
         updateMail: (state, action: PayloadAction<UpdateUserEmailType>) => {
             state.email = action.payload.email;
@@ -52,6 +79,10 @@ export const authSlice = createSlice({
              state.email = '';
              state.emailVerified = false;
              state.photoUrl = null;
+
+            if (isLocalStorageAvailable()) {
+                localStorage.removeItem("user");
+            }
         },
     },
 })

@@ -3,12 +3,13 @@ import { Snackbar } from "@mui/material";
 type SnackBarProps = {
     showSnackbar: boolean;
     setShowSnackbar: (showSnackbar: boolean) => void;
-    children: any
+    children: any,
+    autoHideDuration?: number
 }
 
-export function CustomSnackbar({ children, setShowSnackbar, showSnackbar }: SnackBarProps) {
+export function CustomSnackbar({ children, setShowSnackbar, showSnackbar, autoHideDuration }: SnackBarProps) {
     return <Snackbar
-        autoHideDuration={2000}
+        autoHideDuration={autoHideDuration}
         open={showSnackbar}
         onClose={() => setShowSnackbar(false)}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}

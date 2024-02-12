@@ -1,70 +1,111 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import { SignInWithGoogle } from "./SignInWithGoogle";
 import { UserLogic } from "../util/UserLogic";
-import { Box, Button, TextField } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { login } from "../../store/auth";
 import { APP_URL } from "../pages/urls";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { useNavigate } from "react-router-dom";
+import { CustomSnackbar } from "./CustomSnackbar";
+import { useState } from "react";
+import { FirebaseError } from "firebase/app";
 
 export function Register() {
     const dispatch = useStoreDispatch();
     const navigate = useNavigate();
     const intl = useIntl();
     const userLogic = new UserLogic();
+    const [showError, setShowError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+
+    function isValidPassword(password: string, confirmPassword: string): boolean {
+        let isValid = true
+        if (password !== '' && confirmPassword !== '') {
+            if (password !== confirmPassword) {
+                isValid = false
+            }
+        }
+        return isValid
+    }
 
     async function handleRegister(
         name: FormDataEntryValue | null,
         email: FormDataEntryValue | null,
-        password: FormDataEntryValue | null
+        password: FormDataEntryValue | null,
+        confirmPassword: FormDataEntryValue | null
     ) {
-        if (name === null || email === null || password === null) {
+        if (!name || !email || !password || !confirmPassword) {
+            setErrorMessage(intl.formatMessage({ id: "page.register.empty.textfield" }));
+            setShowError(true);
+            return;
+        }
+
+        const nameText: string = name.toString();
+        const emailText: string = email.toString();
+        const passwordText: string = password.toString();
+        const confirmPasswordText: string = confirmPassword.toString();
+
+        if (!isValidPassword(passwordText, confirmPasswordText)) {
+            setErrorMessage(intl.formatMessage({ id: "page.register.wrong.password" }));
+            setShowError(true);
             return;
         }
         try {
-            const { user } = await createUserWithEmailAndPassword(
-                auth,
-                email.toString(),
-                password.toString()
-            );
-            dispatch(login({
-                id: user.uid,
-                accessToken: user.refreshToken,
-                displayName: name.toString(),
-                email: user.email,
-                emailVerified: user.emailVerified,
-                photoUrl: user.photoURL,
-            }));
+            const { user } = await createUserWithEmailAndPassword(auth, emailText, passwordText);
+            if (user) {
+                dispatch(login({
+                    id: user.uid,
+                    accessToken: user.refreshToken,
+                    displayName: nameText,
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    photoUrl: user.photoURL,
+                }));
 
-            await updateProfile(auth.currentUser!, {
-                displayName: name.toString()
-            });
+                localStorage.setItem("user", JSON.stringify(user));
 
-            await userLogic.verifyEmail();
+                await updateProfile(auth.currentUser!, {
+                    displayName: nameText
+                });
 
-            navigate(`${APP_URL.ROOT}`, {
-                state: {
-                    isShowNotification: true
-                }
-            });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.log(error.message);
+                await userLogic.verifyEmail();
+
+                navigate(`${APP_URL.ROOT}`, {
+                    state: {
+                        isShowNotification: true
+                    }
+                });
             }
-            navigate(`${APP_URL.ERROR}`, {
-                state: {
-                    message: intl.formatMessage({ id: "message.503" })
+        } catch (error: any) {
+            if(error instanceof FirebaseError){
+                if (error.code === "auth/email-already-in-use") {
+                    setErrorMessage(intl.formatMessage({ id: "page.register.conflict.email" }));
                 }
-            });
+                if (error.code === "auth/invalid-email") {
+                    setErrorMessage(intl.formatMessage({ id: "page.register.wrong.email" }));
+                }
+                if (error.code === "auth/weak-password") {
+                    setErrorMessage(intl.formatMessage({ id: "page.register.weak.password" }));
+                }
+                setShowError(true);
+            } else if (error instanceof Error) {
+                console.log(error.message);
+            } else {
+                navigate(`${APP_URL.ERROR}`, {
+                    state: {
+                        message: intl.formatMessage({ id: "message.503" })
+                    }
+                });
+            }
         }
     }
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        handleRegister(data.get('name'), data.get('email'), data.get('password'));
+        handleRegister(data.get('name'), data.get('email'), data.get('password'), data.get('confirmPassword'));
     }
 
     return <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -98,6 +139,16 @@ export function Register() {
             id="password"
             autoComplete="current-password"
         />
+        <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="confirmPassword"
+            label={intl.formatMessage({ id: "text.confirmPassword" })}
+            type="password"
+            id="confirmPassword"
+            autoComplete="current-confirm-password"
+        />
         <Button
             type="submit"
             fullWidth
@@ -107,5 +158,14 @@ export function Register() {
             <FormattedMessage id="page.register.message" />
         </Button>
         <SignInWithGoogle />
+        <CustomSnackbar
+            showSnackbar={showError}
+            setShowSnackbar={setShowError}
+            autoHideDuration={4000}
+        >
+            <Alert variant="filled" severity="error">
+                <span>{errorMessage}</span>
+            </Alert>
+        </CustomSnackbar>
     </Box>
 }

@@ -16,6 +16,11 @@
   "page.register.message": "register",
   "page.register.description": "Already have an account? {link}",
   "page.register.description.redirect": "Sign in",
+  "page.register.empty.textfield": "Text fields cannot be empty!",
+  "page.register.conflict.email": "Email already in use!",
+  "page.register.wrong.email": "Invalid email!",
+  "page.register.wrong.password": "Password and confirmPassword should be the same!",
+  "page.register.weak.password": "Weak password!",
   "page.error.head": "Oops!",
   "page.error.link.root": "Go to Home",
   "page.profile.name": "Name: {name}",
@@ -41,6 +46,7 @@
   "text.name": "Name",
   "text.email": "Email",
   "text.password": "Password",
+  "text.confirmPassword": "Re-type password",
   "text.yes": "Yes",
   "text.no": "No"
 }

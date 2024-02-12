@@ -16,6 +16,11 @@
   "page.register.message": "Зарегистироваться",
   "page.register.description": "Уже есть аккаунт? {link}",
   "page.register.description.redirect": "Войти",
+  "page.register.empty.textfield": "Поля для ввода должны быть заполнены!",
+  "page.register.conflict.email": "Email уже зарегистрирован!",
+  "page.register.wrong.email": "Неверный email!",
+  "page.register.wrong.password": "Пароль и повтор пароля должны быть одинаковыми!",
+  "page.register.weak.password": "Слишком простой пароль!",
   "page.error.head": "Упс!",
   "page.error.link.root": "Перейти на главную страницу",
   "page.profile.name": "Имя: {name}",
@@ -41,6 +46,7 @@
   "text.name": "Имя",
   "text.email": "Email",
   "text.password": "Пароль",
+  "text.confirmPassword": "Повторите пароль",
   "text.yes": "Да",
   "text.no": "Нет"
 }

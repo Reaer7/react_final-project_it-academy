@@ -4,14 +4,15 @@ import { logout } from "../../store/auth";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { FormattedMessage } from 'react-intl';
 import { APP_URL } from "../pages/urls";
+import { auth } from "../../config/firebase";
 
 export function Header() {
     const dispatch = useStoreDispatch();
     const { isAuth, isLogin }: AuthUserType = useAuth()!;
 
-    function handleClick() {
+    function handleLogoutClick() {
+        auth.signOut();
         dispatch(logout());
-        localStorage.removeItem("user");
         return <Navigate to={APP_URL.ROOT} replace/>
     }
 
@@ -40,7 +41,7 @@ export function Header() {
                 </Link>}
             </nav>
             {isLogin
-                ? <div className="nav-link signout" onClick={handleClick}>
+                ? <div className="nav-link signout" onClick={handleLogoutClick}>
                     <FormattedMessage
                         id="header.logout"
                     />
