@@ -1,7 +1,7 @@
 import { sendEmailVerification, User } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth } from "../config/firebase";
 import { useIntl } from "react-intl";
-import { APP_URL } from "../pages/urls";
+import { APP_URL } from "../components/pages/urls";
 import { useNavigate } from "react-router-dom";
 
 export class UserLogic {

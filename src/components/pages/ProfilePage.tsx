@@ -2,7 +2,7 @@ import { deleteUser, updateEmail, updatePassword, updateProfile, User, validateP
 import { auth } from "../../config/firebase";
 import { FormattedMessage, useIntl } from "react-intl";
 import { FormattedButton } from "../common/FormattedButton";
-import { UserLogic } from "../util/UserLogic";
+import { UserLogic } from "../../util/UserLogic";
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BlockRoundedIcon from '@mui/icons-material/BlockRounded';
 import {

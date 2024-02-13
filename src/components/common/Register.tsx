@@ -1,6 +1,6 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import { SignInWithGoogle } from "./SignInWithGoogle";
-import { UserLogic } from "../util/UserLogic";
+import { UserLogic } from "../../util/UserLogic";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../config/firebase";

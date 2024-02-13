@@ -34,6 +34,11 @@ export function Header() {
                         id="header.main"
                     />
                 </Link>}
+                {isLogin && <Link className="nav-link" to={APP_URL.SPEAKERS}>
+                    <FormattedMessage
+                        id="header.speakers"
+                    />
+                </Link>}
                 {isLogin && <Link className="nav-link" to={APP_URL.PROFILE}>
                     <FormattedMessage
                         id="header.profile"

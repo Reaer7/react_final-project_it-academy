@@ -17,6 +17,7 @@ import { APP_URL } from './pages/urls';
 import { AuthRoute } from "./common/AuthRoute";
 import { useIntl } from 'react-intl';
 import { AuthStateContainer } from "./layouts/AuthStateContainer";
+import { SpeakersPage } from "./pages/SpeakersPage";
 
 export function App() {
     const intl = useIntl()
@@ -50,6 +51,12 @@ export function App() {
                                 <PrivateRoute>
                                     <MainPage />
                                 </PrivateRoute>
+                            } />
+
+                            <Route path={APP_URL.SPEAKERS} element={
+                                <AuthRoute>
+                                    <SpeakersPage />
+                                </AuthRoute>
                             } />
 
                             <Route path={APP_URL.PROFILE} element={

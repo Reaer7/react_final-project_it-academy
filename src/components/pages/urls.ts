@@ -6,4 +6,5 @@ export enum APP_URL {
     LOGIN = '/login',
     REGISTER = '/register',
     PROFILE = '/profile',
+    SPEAKERS = '/speakers',
 }

@@ -4,6 +4,7 @@
   "header.login": "Login",
   "header.logout": "Logout",
   "header.profile": "Profile",
+  "header.speakers": "Speakers",
   "page.root.head": "This is root page",
   "page.root.description": "You can visit {link} if you already authorized and your email is verified",
   "page.root.description.redirect": "Main page",
