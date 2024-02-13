@@ -9,6 +9,7 @@ type MessageErrorType = {
 
 export function ErrorPage() {
     const { state } = useLocation();
+
     const { message }: MessageErrorType = state;
 
     return <div id="error-page">

@@ -8,7 +8,7 @@ import { login } from "../../store/auth";
 import { APP_URL } from "../pages/urls";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { useNavigate } from "react-router-dom";
-import { CustomSnackbar } from "./CustomSnackbar";
+import { CustomAlertSnackbar } from "./CustomAlertSnackbar";
 import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 
@@ -16,9 +16,10 @@ export function Register() {
     const dispatch = useStoreDispatch();
     const navigate = useNavigate();
     const intl = useIntl();
-    const userLogic = new UserLogic();
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
+
+    const userLogic = new UserLogic();
 
     function isValidPassword(password: string, confirmPassword: string): boolean {
         let isValid = true
@@ -37,7 +38,7 @@ export function Register() {
         confirmPassword: FormDataEntryValue | null
     ) {
         if (!name || !email || !password || !confirmPassword) {
-            setErrorMessage(intl.formatMessage({ id: "page.register.empty.textfield" }));
+            setErrorMessage(intl.formatMessage({ id: "empty.input.field" }));
             setShowError(true);
             return;
         }
@@ -71,12 +72,6 @@ export function Register() {
                 });
 
                 await userLogic.verifyEmail();
-
-                navigate(`${APP_URL.ROOT}`, {
-                    state: {
-                        isShowNotification: true
-                    }
-                });
             }
         } catch (error: any) {
             if(error instanceof FirebaseError){
@@ -158,14 +153,11 @@ export function Register() {
             <FormattedMessage id="page.register.message" />
         </Button>
         <SignInWithGoogle />
-        <CustomSnackbar
+        <CustomAlertSnackbar
             showSnackbar={showError}
             setShowSnackbar={setShowError}
             autoHideDuration={4000}
-        >
-            <Alert variant="filled" severity="error">
-                <span>{errorMessage}</span>
-            </Alert>
-        </CustomSnackbar>
+            message={errorMessage}
+        />
     </Box>
 }

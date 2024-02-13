@@ -22,7 +22,6 @@ Your app is ready to be deployed!
 
 # Tasks
 * fix refresh User to storage
-* fix change user data buttons
 
 + reposts
 + search report by topic

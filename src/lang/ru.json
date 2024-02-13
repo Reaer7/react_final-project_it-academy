@@ -16,7 +16,6 @@
   "page.register.message": "Зарегистироваться",
   "page.register.description": "Уже есть аккаунт? {link}",
   "page.register.description.redirect": "Войти",
-  "page.register.empty.textfield": "Поля для ввода должны быть заполнены!",
   "page.register.conflict.email": "Email уже зарегистрирован!",
   "page.register.wrong.email": "Неверный email!",
   "page.register.wrong.password": "Пароль и повтор пароля должны быть одинаковыми!",
@@ -29,6 +28,7 @@
   "page.profile.not.change.name": "Не удалось изменить имя пользователя!",
   "page.profile.enter.password": "Введите новый пароль",
   "page.profile.change.password": "Изменить пароль",
+  "page.profile.requires.recent.login": "Требуется недавний вход в систему",
   "page.profile.not.change.password": "Не удалось изменить пароль пользователя!",
   "page.profile.email": "Email{sup}:  {email}",
   "page.profile.enter.email": "Введите новый email",
@@ -48,5 +48,8 @@
   "text.password": "Пароль",
   "text.confirmPassword": "Повторите пароль",
   "text.yes": "Да",
-  "text.no": "Нет"
+  "text.no": "Нет",
+  "text.confirm": "Подтвердить",
+  "text.cancel": "Отмена",
+  "empty.input.field": "Поля для ввода должны быть заполнены!"
 }

@@ -1,8 +1,7 @@
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { APP_URL } from "./urls";
-import { Alert } from "@mui/material";
-import { CustomSnackbar } from "../common/CustomSnackbar";
+import { CustomAlertSnackbar } from "../common/CustomAlertSnackbar";
 import { useState } from "react";
 import { useLocation } from "react-router";
 
@@ -12,6 +11,8 @@ type NotificationType = {
 
 export function RootPage() {
     const { state } = useLocation();
+    const intl = useIntl();
+
     const { isShowNotification }: NotificationType = state ? state : false;
     const [showNotification, setShowNotification] = useState<boolean>(isShowNotification);
 
@@ -33,15 +34,13 @@ export function RootPage() {
                 }}
             />
         </p>
-        <CustomSnackbar
+        <CustomAlertSnackbar
             showSnackbar={showNotification}
             setShowSnackbar={setShowNotification}
             autoHideDuration={4000}
-        >
-            <Alert variant="filled" severity="success">
-                <FormattedMessage id="page.profile.send.verification" />
-            </Alert>
-        </CustomSnackbar>
+            message={intl.formatMessage({ id: "page.profile.send.verification" })}
+            severity="success"
+        />
     </div>
 }
 

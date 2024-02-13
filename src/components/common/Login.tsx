@@ -1,6 +1,6 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import { SignInWithGoogle } from "./SignInWithGoogle";
-import { Alert, Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { login } from "../../store/auth";
@@ -8,7 +8,7 @@ import { APP_URL } from "../pages/urls";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { CustomSnackbar } from "./CustomSnackbar";
+import { CustomAlertSnackbar } from "./CustomAlertSnackbar";
 
 export function Login() {
     const dispatch = useStoreDispatch();
@@ -85,13 +85,10 @@ export function Login() {
             <FormattedMessage id="page.login.message" />
         </Button>
         <SignInWithGoogle />
-        <CustomSnackbar
+        <CustomAlertSnackbar
             showSnackbar={showError}
             setShowSnackbar={setShowError}
-        >
-            <Alert variant="filled" severity="error">
-                <FormattedMessage id="message.401" />
-            </Alert>
-        </CustomSnackbar>
+            message={intl.formatMessage({ id: "message.401" })}
+        />
     </Box>
 }
