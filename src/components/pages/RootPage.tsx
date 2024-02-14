@@ -5,7 +5,9 @@ import { CustomAlertSnackbar } from "../common/CustomAlertSnackbar";
 import { useState } from "react";
 import { useLocation } from "react-router";
 import { Box, Button, MobileStepper, Paper, Typography, useTheme } from "@mui/material";
-import SwipeableViews from 'react-swipeable-views';
+// @ts-ignore
+import SwipeableViews from "react-swipeable-views-react-18-fix";
+// @ts-ignore
 import { autoPlay } from 'react-swipeable-views-utils';
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
@@ -78,7 +80,7 @@ export function RootPage() {
                 <Typography>{images[activeStep].label}</Typography>
             </Paper>
             <AutoPlaySwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                axis='x'
                 index={activeStep}
                 onChangeIndex={handleStepChange}
                 enableMouseEvents
@@ -112,22 +114,12 @@ export function RootPage() {
                         onClick={handleNext}
                         disabled={activeStep === maxSteps - 1}
                     >
-                        Next
-                        {theme.direction === 'rtl' ? (
-                            <KeyboardArrowLeft />
-                        ) : (
-                            <KeyboardArrowRight />
-                        )}
+                        Next <KeyboardArrowRight />
                     </Button>
                 }
                 backButton={
                     <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                        {theme.direction === 'rtl' ? (
-                            <KeyboardArrowRight />
-                        ) : (
-                            <KeyboardArrowLeft />
-                        )}
-                        Back
+                        <KeyboardArrowLeft /> Back
                     </Button>
                 }
             />
