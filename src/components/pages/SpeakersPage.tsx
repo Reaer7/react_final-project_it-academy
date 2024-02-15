@@ -2,7 +2,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import {
     Autocomplete,
     Box,
-    CircularProgress,
+    CircularProgress, Container,
     ImageList,
     ImageListItem,
     ImageListItemBar,
@@ -47,45 +47,47 @@ export function SpeakersPage() {
         </h4>
         {(speakers.isLoading && !!filteredSpeakers && speakers?.items)
             ? <CircularProgress />
-            : <Box sx={{
-                width: "100%",
-                height: 700,
-                overflowY: "scroll",
-            }}>
-                <Autocomplete
-                    autoHighlight
-                    options={speakers.items.map(item => item.name)}
-                    sx={{ width: 500, marginY: 0.75 }}
-                    noOptionsText={intl.formatMessage({ id: "text.not.match" })}
-                    popupIcon={<Search />}
-                    inputValue={speakerName}
-                    onInputChange={(event, newInputValue) => {
-                        setSpeakerName(newInputValue);
-                    }}
-                    renderInput={(params) => <TextField
-                        {...params}
-                        label={intl.formatMessage({ id: "text.fio" })}
-                    />}
-                />
-                <ImageList variant="masonry" cols={3}>
-                    {!!filteredSpeakers && filteredSpeakers.map((item: SpeakerType) => (
-                        <Link key={item.id}
-                              to={`${APP_URL.SPEAKERS}/${item.id}`}
-                              className="nav-link"
-                              style={{ color: '#606573' }}
-                        >
-                            <ImageListItem sx={{ padding: 1 }}>
-                                <img
-                                    srcSet={`${item.urlPhoto}`}
-                                    src={`${item.urlPhoto}`}
-                                    alt={item.jobTitle}
-                                    loading="lazy"
-                                />
-                                <ImageListItemBar position="below" title={item.name} />
-                            </ImageListItem>
-                        </Link>
-                    ))}
-                </ImageList>
-            </Box>}
+            : <Container maxWidth="lg">
+                <Box sx={{
+                    width: "100%",
+                    height: '80vh',
+                    overflowY: "scroll",
+                }}>
+                    <Autocomplete
+                        autoHighlight
+                        options={speakers.items.map(item => item.name)}
+                        sx={{ width: 500, marginY: 0.75 }}
+                        noOptionsText={intl.formatMessage({ id: "text.not.match" })}
+                        popupIcon={<Search />}
+                        inputValue={speakerName}
+                        onInputChange={(event, newInputValue) => {
+                            setSpeakerName(newInputValue);
+                        }}
+                        renderInput={(params) => <TextField
+                            {...params}
+                            label={intl.formatMessage({ id: "text.fio" })}
+                        />}
+                    />
+                    <ImageList variant="masonry" cols={3}>
+                        {!!filteredSpeakers && filteredSpeakers.map((item: SpeakerType) => (
+                            <Link key={item.id}
+                                  to={`${APP_URL.SPEAKERS}/${item.id}`}
+                                  className="nav-link"
+                                  style={{ color: '#606573' }}
+                            >
+                                <ImageListItem sx={{ padding: 1 }}>
+                                    <img
+                                        srcSet={`${item.urlPhoto}`}
+                                        src={`${item.urlPhoto}`}
+                                        alt={item.jobTitle}
+                                        loading="lazy"
+                                    />
+                                    <ImageListItemBar position="below" title={item.name} />
+                                </ImageListItem>
+                            </Link>
+                        ))}
+                    </ImageList>
+                </Box>
+            </Container>}
     </Box>
 }

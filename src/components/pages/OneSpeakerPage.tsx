@@ -22,7 +22,7 @@ export function OneSpeakerPage() {
     }, [])
 
     return <div className="content-container">
-        {(speaker.isLoading && !!speaker.item)
+        {(speaker.isLoading && speaker?.item)
             ? <CircularProgress />
             : <Grid container justifyContent={"center"} rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={10}>
