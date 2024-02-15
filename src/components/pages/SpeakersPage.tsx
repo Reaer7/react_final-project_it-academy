@@ -37,7 +37,7 @@ export function SpeakersPage() {
         } else {
             setFilteredSpeakers(speakers.items);
         }
-    }, [speakerName])
+    }, [speakerName, speakers])
 
     return <Box sx={{ maxWidth: 1200, alignContent: "center", padding: 5 }}>
         <h4>
@@ -45,7 +45,7 @@ export function SpeakersPage() {
                 id="page.speakers.head"
             />
         </h4>
-        {(speakers.isLoading && speakers?.items)
+        {(speakers.isLoading && !!filteredSpeakers && speakers?.items)
             ? <CircularProgress />
             : <Box sx={{
                 width: "100%",
