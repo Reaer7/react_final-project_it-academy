@@ -1,5 +1,5 @@
 import { useStoreSelector } from "./useStoreSelector";
-import { UserType } from "../store/auth";
+import { UserType } from "../store/firebaseTypes";
 import { useNavigate } from "react-router-dom";
 import { APP_URL } from "../components/pages/urls";
 

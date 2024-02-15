@@ -1,13 +1,5 @@
-import {
-	collection,
-	doc,
-	getDoc,
-	getDocs,
-	setDoc,
-	updateDoc,
-	deleteDoc
-} from "firebase/firestore";
-import { db } from "./firebase";
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const prefix = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
 
@@ -20,14 +12,14 @@ class FirestoreCrud {
 		const docRef = doc(db, this.collectionId, docId);
 		await setDoc(docRef, data);
 
-		return this.get(collectionId, docId);
+		return this.get(docId);
 	}
 
 	async update(docId, data) {
 		const docRef = doc(db, this.collectionId, docId);
 		await updateDoc(docRef, data);
 
-		return this.get(this.collectionId, docId);
+		return this.get(docId);
 	}
 
 	async list() {
@@ -46,7 +38,7 @@ class FirestoreCrud {
 	}
 
 	async get(docId) {
-		const docRef = collection(db, this.collectionId, docId);
+		const docRef = doc(db, this.collectionId, docId);
 		const docSnap = await getDoc(docRef);
 
 		if (docSnap.exists()) {
@@ -60,7 +52,7 @@ class FirestoreCrud {
 	}
 
 	async delete(docId) {
-		const docRef = collection(db, this.collectionId, docId);
+		const docRef = doc(db, this.collectionId, docId);
 		await deleteDoc(docRef);
 
 		return true;
@@ -68,3 +60,4 @@ class FirestoreCrud {
 }
 
 export const SpeakersApi = new FirestoreCrud('speakers');
+export const ReportsApi = new FirestoreCrud('reports');

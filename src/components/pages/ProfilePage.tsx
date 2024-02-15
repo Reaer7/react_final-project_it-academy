@@ -99,7 +99,7 @@ export function ProfilePage() {
             await updatePassword(authUser!, password!);
             navigate(`${APP_URL.PROFILE}`);
         } catch (error) {
-            if(error instanceof FirebaseError){
+            if (error instanceof FirebaseError) {
                 if (error.code === "auth/requires-recent-login") {
                     setErrorMessage(intl.formatMessage({ id: "page.profile.conflict.email" }));
                 }
@@ -154,23 +154,23 @@ export function ProfilePage() {
     return <Box sx={{ mt: 1 }}>
         {!authUser && <CircularProgress />}
         {authUser?.displayName && <p>
-            <FormattedMessage
-                id="page.profile.name"
-                values={{ name: authUser.displayName }}
-            />
-        </p>}
+			<FormattedMessage
+				id="page.profile.name"
+				values={{ name: authUser.displayName }}
+			/>
+		</p>}
         {authUser?.email && <p>
-            <FormattedMessage
-                id="page.profile.email"
-                values={{
+			<FormattedMessage
+				id="page.profile.email"
+				values={{
                     sup: (<sup>{!!authUser?.emailVerified
                         ? <CheckCircleOutlineRoundedIcon />
                         : <BlockRoundedIcon />
                     }</sup>),
                     email: authUser?.email
                 }}
-            />
-        </p>}
+			/>
+		</p>}
         {!!authUser
             ? <div className="profile-content">
                 <FormattedButton
@@ -186,9 +186,9 @@ export function ProfilePage() {
                     clickHandler={() => setOpenChangeEmailDialog(true)}
                 />
                 {!authUser?.emailVerified && <FormattedButton
-                    messageId={"page.profile.verify.email"}
-                    clickHandler={() => userLogic.verifyEmail()}
-                />}
+					messageId={"page.profile.verify.email"}
+					clickHandler={() => userLogic.verifyEmail()}
+				/>}
                 <div style={{ justifyContent: "normal" }}>
                     <hr />
                 </div>

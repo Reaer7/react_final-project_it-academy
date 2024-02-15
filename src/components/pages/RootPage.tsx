@@ -2,14 +2,19 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { APP_URL } from "./urls";
 import { CustomAlertSnackbar } from "../common/CustomAlertSnackbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { Box, Button, MobileStepper, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, MobileStepper, Paper, Typography } from "@mui/material";
 // @ts-ignore
 import SwipeableViews from "react-swipeable-views-react-18-fix";
 // @ts-ignore
 import { autoPlay } from 'react-swipeable-views-utils';
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { useStoreSelector } from "../../hooks/useStoreSelector";
+import { useStoreDispatch } from "../../hooks/useStoreDispatch";
+import { loadReports } from "../../store/report";
+import { ReportsType } from "../../store/firebaseTypes";
+import { loadReportAction } from "../../actions/loadReportAction";
 
 type NotificationType = {
     isShowNotification: boolean;
@@ -17,47 +22,25 @@ type NotificationType = {
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const images = [
-    {
-        label: 'San Francisco – Oakland Bay Bridge, United States',
-        imgPath: 'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-    {
-        label: 'Bird',
-        imgPath: 'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-    {
-        label: 'Bali, Indonesia',
-        imgPath: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-    },
-    {
-        label: 'Goč, Serbia',
-        imgPath: 'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-];
-
 export function RootPage() {
     const { state } = useLocation();
+    const dispatch = useStoreDispatch();
     const intl = useIntl();
-    const theme = useTheme();
     const [activeStep, setActiveStep] = useState<number>(0);
+    const reports: ReportsType = useStoreSelector(store => store.report);
+    const [maxSteps, setMaxSteps] = useState<number>(reports?.items.length ?? 0);
 
     const { isShowNotification }: NotificationType = state || false;
     const [showNotification, setShowNotification] = useState<boolean>(isShowNotification);
 
-    const maxSteps = images.length;
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleStepChange = (step: number) => {
-        setActiveStep(step);
-    };
+    useEffect(() => {
+        // console.log('isLoading', reports.isLoading);
+        // console.log('items', reports.items);
+        loadReportAction(dispatch);
+        setMaxSteps(reports.items.length);
+        // console.log('isLoading', reports.isLoading);
+        // console.log('items', reports.items);
+    }, []);
 
     return <div className="content-container">
         <h4>
@@ -65,65 +48,71 @@ export function RootPage() {
                 id="page.root.head"
             />
         </h4>
-        <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-            <Paper
-                square
-                elevation={0}
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: 50,
-                    pl: 2,
-                    bgcolor: 'background.default',
-                }}
-            >
-                <Typography>{images[activeStep].label}</Typography>
-            </Paper>
-            <AutoPlaySwipeableViews
-                axis='x'
-                index={activeStep}
-                onChangeIndex={handleStepChange}
-                enableMouseEvents
-            >
-                {images.map((step, index) => (
-                    <div key={step.label}>
-                        {Math.abs(activeStep - index) <= 2 ? (
-                            <Box
-                                component="img"
-                                sx={{
-                                    height: 255,
-                                    display: 'block',
-                                    maxWidth: 400,
-                                    overflow: 'hidden',
-                                    width: '100%',
-                                }}
-                                src={step.imgPath}
-                                alt={step.label}
-                            />
-                        ) : null}
-                    </div>
-                ))}
-            </AutoPlaySwipeableViews>
-            <MobileStepper
-                steps={maxSteps}
-                position="static"
-                activeStep={activeStep}
-                nextButton={
-                    <Button
-                        size="small"
-                        onClick={handleNext}
-                        disabled={activeStep === maxSteps - 1}
-                    >
-                        Next <KeyboardArrowRight />
-                    </Button>
-                }
-                backButton={
-                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                        <KeyboardArrowLeft /> Back
-                    </Button>
-                }
-            />
-        </Box>
+        {/*{(reports.isLoading && !!reports?.items)
+            ? <CircularProgress />
+            : <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
+                <Paper
+                    square
+                    elevation={0}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        height: 50,
+                        pl: 2,
+                        bgcolor: 'background.default',
+                    }}
+                >
+                    <Typography>{!!reports?.items && reports.items[activeStep]?.name}</Typography>
+                </Paper>
+                <AutoPlaySwipeableViews
+                    axis='x'
+                    index={activeStep}
+                    onChangeIndex={(step: number) => setActiveStep(step)}
+                    enableMouseEvents
+                >
+                    {reports.items.map((report, index) => (
+                        <div key={report.id}>
+                            {Math.abs(activeStep - index) <= 2
+                                ? <Box
+                                    component="img"
+                                    sx={{
+                                        height: 320,
+                                        display: 'block',
+                                        maxWidth: 500,
+                                        overflow: 'hidden',
+                                        width: '100%',
+                                    }}
+                                    src={report.urlPhoto}
+                                    alt={report.name}
+                                />
+                                : null}
+                        </div>
+                    ))}
+                </AutoPlaySwipeableViews>
+                <MobileStepper
+                    steps={maxSteps}
+                    position="static"
+                    activeStep={activeStep}
+                    nextButton={
+                        <Button
+                            size="small"
+                            onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+                            disabled={activeStep === maxSteps - 1}
+                        >
+                            Next <KeyboardArrowRight />
+                        </Button>
+                    }
+                    backButton={
+                        <Button
+                            size="small"
+                            onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
+                            disabled={activeStep === 0}
+                        >
+                            <KeyboardArrowLeft /> Back
+                        </Button>
+                    }
+                />
+            </Box>}*/}
         <p>
             <FormattedMessage
                 id="page.root.description"
@@ -145,5 +134,3 @@ export function RootPage() {
         />
     </div>
 }
-
-// https://mui.com/material-ui/react-stepper/#text-with-carousel-effect

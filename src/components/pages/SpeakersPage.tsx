@@ -1,45 +1,49 @@
-import { FormattedMessage, useIntl } from "react-intl";
-import { Link } from "react-router-dom";
-import { APP_URL } from "./urls";
-import { CustomAlertSnackbar } from "../common/CustomAlertSnackbar";
-import { useEffect } from "react";
+import { FormattedMessage } from "react-intl";
+import { Box, CircularProgress, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 import { useStoreSelector } from "../../hooks/useStoreSelector";
+import { useEffect } from "react";
+import { loadSpeakersAction } from "../../actions/loadSpeakersAction";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
-import { Box, Paper, styled } from "@mui/material";
-import Masonry from '@mui/lab/Masonry';
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(0.5),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
+import { SpeakersType, SpeakerType } from "../../store/firebaseTypes";
+import { APP_URL } from "./urls";
+import { Link } from "react-router-dom";
 
 export function SpeakersPage() {
-    // const speakers = useStoreSelector(store => store.speakers);
-    const speakers = [150, 30, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 30, 50, 80];
+    const speakers: SpeakersType = useStoreSelector(store => store.speakers);
     const dispatch = useStoreDispatch();
-    const intl = useIntl();
 
-    // useEffect(() => {
-    //     loadPostsAction(dispatch);
-    // }, []);
+    useEffect(() => {
+        loadSpeakersAction(dispatch);
+    }, []);
 
-    return <div className="content-container">
+    return <Box sx={{ maxWidth: 1200, alignContent: "center", padding: 5 }}>
         <h4>
             <FormattedMessage
                 id="page.speakers.head"
             />
         </h4>
-        <Box sx={{ width: 500, minHeight: 393 }}>
-            <Masonry columns={4} spacing={2}>
-                {speakers.map((height, index) => (
-                    <Item key={index} sx={{ height }}>
-                        {index + 1}
-                    </Item>
-                ))}
-            </Masonry>
-        </Box>
-    </div>
+        {(speakers.isLoading && !!speakers?.items)
+            ? <CircularProgress />
+            : <Box sx={{
+                width: "min-content",
+                height: 700,
+                overflowY: "scroll"
+            }}>
+                <ImageList variant="masonry" cols={3}>
+                    {speakers.items.map((item: SpeakerType) => (
+                        <Link key={item.id} to={`${APP_URL.SPEAKERS}/${item.id}`} className="nav-link">
+                            <ImageListItem sx={{ padding: 1 }}>
+                                <img
+                                    srcSet={`${item.urlPhoto}`}
+                                    src={`${item.urlPhoto}`}
+                                    alt={item.jobTitle}
+                                    loading="lazy"
+                                />
+                                <ImageListItemBar position="below" title={item.name} />
+                            </ImageListItem>
+                        </Link>
+                    ))}
+                </ImageList>
+            </Box>}
+    </Box>
 }

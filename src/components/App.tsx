@@ -18,6 +18,8 @@ import { AuthRoute } from "./common/AuthRoute";
 import { useIntl } from 'react-intl';
 import { AuthStateContainer } from "./layouts/AuthStateContainer";
 import { SpeakersPage } from "./pages/SpeakersPage";
+import { OneSpeakerPage } from './pages/OneSpeakerPage';
+import { FirestoreInitPage } from './pages/FirestoreInitPage';
 
 export function App() {
     const intl = useIntl()
@@ -53,9 +55,21 @@ export function App() {
                                 </PrivateRoute>
                             } />
 
+                            <Route path={`${process.env.REACT_APP_FIRESTORE_INIT_PATH}`} element={
+                                <PrivateRoute>
+                                    <FirestoreInitPage />
+                                </PrivateRoute>
+                            } />
+
                             <Route path={APP_URL.SPEAKERS} element={
                                 <AuthRoute>
                                     <SpeakersPage />
+                                </AuthRoute>
+                            } />
+
+                            <Route path={APP_URL.SPEAKER} element={
+                                <AuthRoute>
+                                    <OneSpeakerPage />
                                 </AuthRoute>
                             } />
 

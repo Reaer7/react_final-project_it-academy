@@ -1,22 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-export type UserType = {
-    id: string;
-    accessToken: string | null;
-    displayName: string | null;
-    email: string | null;
-    emailVerified: boolean;
-    photoUrl: string | null;
-};
-
-export type UpdateUserNameType = {
-    displayName: string;
-};
-
-export type UpdateUserEmailType = {
-    email: string;
-};
+import { createSlice } from "@reduxjs/toolkit";
+import { UpdateUserEmailType, UpdateUserNameType, UserType } from "./firebaseTypes";
 
 const getUserFromLocalStorage = (): UserType | undefined => {
     if (isLocalStorageAvailable()) {
@@ -73,12 +57,12 @@ export const authSlice = createSlice({
             state.displayName = action.payload.displayName;
         },
         logout: (state) => {
-             state.id = '';
-             state.accessToken = null;
-             state.displayName = null;
-             state.email = '';
-             state.emailVerified = false;
-             state.photoUrl = null;
+            state.id = '';
+            state.accessToken = null;
+            state.displayName = null;
+            state.email = '';
+            state.emailVerified = false;
+            state.photoUrl = null;
 
             if (isLocalStorageAvailable()) {
                 localStorage.removeItem("user");
@@ -87,11 +71,4 @@ export const authSlice = createSlice({
     },
 })
 
-export const {
-    login,
-    updateMail,
-    updateName,
-    logout
-} = authSlice.actions;
-
-export default authSlice.reducer;
+export const { login, updateMail, updateName, logout } = authSlice.actions;
