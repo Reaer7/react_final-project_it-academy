@@ -1,9 +1,9 @@
 import { actions, StoreDispatch } from "../store";
 import { ReportsApi } from "../api/firestoreCrud";
 
-export async function loadReportAction(dispatch: StoreDispatch): Promise<void> {
+export async function loadReportAction(dispatch: StoreDispatch, id: string): Promise<void> {
     dispatch(actions.report.isLoadingStart());
-    const reports = await ReportsApi.list();
-    dispatch(actions.report.loadReports(reports));
+    const report = await ReportsApi.get(id);
+    dispatch(actions.report.loadReport(report));
     dispatch(actions.report.isLoadingEnd());
 }

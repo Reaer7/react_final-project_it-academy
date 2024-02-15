@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ReportsType } from "./firebaseTypes";
+import { DownloadReportType } from "./firebaseTypes";
 
-const initialState: ReportsType = {
-    items: [],
-    isLoading: false
+const initialState: DownloadReportType = {
+    item: {
+        id: '',
+        name: '',
+        urlPhoto: '',
+        description: '',
+        speakerId: ''
+    },
+    isLoading: false,
 }
 
 export const reportSlice = createSlice({
@@ -16,10 +22,10 @@ export const reportSlice = createSlice({
         isLoadingEnd: (state) => {
             state.isLoading = false;
         },
-        loadReports: (state, action) => {
-            state.items = action.payload;
+        loadReport: (state, action) => {
+            state.item = action.payload;
         }
     }
 });
 
-export const { isLoadingStart, isLoadingEnd, loadReports } = reportSlice.actions;
+export const { isLoadingStart, isLoadingEnd, loadReport } = reportSlice.actions;

@@ -12,9 +12,8 @@ import { autoPlay } from 'react-swipeable-views-utils';
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useStoreSelector } from "../../hooks/useStoreSelector";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
-import { loadReports } from "../../store/report";
 import { ReportsType } from "../../store/firebaseTypes";
-import { loadReportAction } from "../../actions/loadReportAction";
+import { loadReportsAction } from "../../actions/loadReportsAction";
 
 type NotificationType = {
     isShowNotification: boolean;
@@ -27,19 +26,15 @@ export function RootPage() {
     const dispatch = useStoreDispatch();
     const intl = useIntl();
     const [activeStep, setActiveStep] = useState<number>(0);
-    const reports: ReportsType = useStoreSelector(store => store.report);
+    const reports: ReportsType = useStoreSelector(store => store.reports);
     const [maxSteps, setMaxSteps] = useState<number>(reports?.items.length ?? 0);
 
     const { isShowNotification }: NotificationType = state || false;
     const [showNotification, setShowNotification] = useState<boolean>(isShowNotification);
 
     useEffect(() => {
-        // console.log('isLoading', reports.isLoading);
-        // console.log('items', reports.items);
-        loadReportAction(dispatch);
+        loadReportsAction(dispatch);
         setMaxSteps(reports.items.length);
-        // console.log('isLoading', reports.isLoading);
-        // console.log('items', reports.items);
     }, []);
 
     return <div className="content-container">
@@ -48,16 +43,17 @@ export function RootPage() {
                 id="page.root.head"
             />
         </h4>
-        {/*{(reports.isLoading && !!reports?.items)
+        {(reports.isLoading && !!reports?.items)
             ? <CircularProgress />
-            : <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
+            : <Box sx={{ maxWidth: 600, flexGrow: 1 }}>
+
                 <Paper
                     square
                     elevation={0}
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        height: 50,
+                        height: 60,
                         pl: 2,
                         bgcolor: 'background.default',
                     }}
@@ -71,14 +67,17 @@ export function RootPage() {
                     enableMouseEvents
                 >
                     {reports.items.map((report, index) => (
-                        <div key={report.id}>
+                        <Link key={report.id}
+                              to={`${APP_URL.REPORTS}/${report.id}`}
+                              className="nav-link"
+                        >
                             {Math.abs(activeStep - index) <= 2
                                 ? <Box
                                     component="img"
                                     sx={{
-                                        height: 320,
+                                        height: 384,
                                         display: 'block',
-                                        maxWidth: 500,
+                                        maxWidth: 600,
                                         overflow: 'hidden',
                                         width: '100%',
                                     }}
@@ -86,7 +85,7 @@ export function RootPage() {
                                     alt={report.name}
                                 />
                                 : null}
-                        </div>
+                        </Link>
                     ))}
                 </AutoPlaySwipeableViews>
                 <MobileStepper
@@ -112,7 +111,7 @@ export function RootPage() {
                         </Button>
                     }
                 />
-            </Box>}*/}
+            </Box>}
         <p>
             <FormattedMessage
                 id="page.root.description"

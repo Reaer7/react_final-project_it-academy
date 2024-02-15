@@ -1,6 +1,6 @@
 type WorkType<T> = {
-    items: T[] | [],
-    isLoading: boolean | false
+    items: T[],
+    isLoading: boolean
 }
 
 export type ReportType = {
@@ -9,6 +9,11 @@ export type ReportType = {
     urlPhoto: string,
     description: string,
     speakerId: string,
+}
+
+export type DownloadReportType = {
+    item: ReportType,
+    isLoading: boolean
 }
 
 export type ReportsType = WorkType<ReportType>;

@@ -1,7 +1,7 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import { SignInWithGoogle } from "./SignInWithGoogle";
 import { UserLogic } from "../../util/UserLogic";
-import { Alert, Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { login } from "../../store/auth";
@@ -74,7 +74,7 @@ export function Register() {
                 await userLogic.verifyEmail();
             }
         } catch (error: any) {
-            if(error instanceof FirebaseError){
+            if (error instanceof FirebaseError) {
                 if (error.code === "auth/email-already-in-use") {
                     setErrorMessage(intl.formatMessage({ id: "page.register.conflict.email" }));
                 }

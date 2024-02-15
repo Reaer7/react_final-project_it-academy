@@ -46,6 +46,7 @@
   "message.404": "Страница не найдена!",
   "message.401": "Неверные email или пароль!",
   "text.name": "Имя",
+  "text.fio": "ФИО",
   "text.email": "Email",
   "text.password": "Пароль",
   "text.confirmPassword": "Повторите пароль",
@@ -53,5 +54,6 @@
   "text.no": "Нет",
   "text.confirm": "Подтвердить",
   "text.cancel": "Отмена",
+  "text.not.match": "Нет совпадения",
   "empty.input.field": "Поля для ввода должны быть заполнены!"
 }

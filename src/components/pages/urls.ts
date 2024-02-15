@@ -8,4 +8,6 @@ export enum APP_URL {
     PROFILE = '/profile',
     SPEAKERS = '/speakers',
     SPEAKER = '/speakers/:id',
+    REPORTS = '/reports',
+    REPORT = '/reports/:id',
 }

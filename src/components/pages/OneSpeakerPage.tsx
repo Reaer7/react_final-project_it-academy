@@ -4,16 +4,11 @@ import { DownloadSpeakerType } from "../../store/firebaseTypes";
 import { useStoreSelector } from "../../hooks/useStoreSelector";
 import { useStoreDispatch } from "../../hooks/useStoreDispatch";
 import { loadSpeakerAction } from "../../actions/loadSpeakerAction";
-import { Card, CardContent, CardMedia, CircularProgress, Grid, Paper, styled, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography } from "@mui/material";
 import { APP_URL } from "./urls";
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
+import Markdown from "react-markdown";
+import { LeftItem } from "../common/LeftItem";
+import { Item } from "../common/Item";
 
 export function OneSpeakerPage() {
     const params = useParams();
@@ -31,11 +26,11 @@ export function OneSpeakerPage() {
             ? <CircularProgress />
             : <Grid container justifyContent={"center"} rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={10}>
-                    <Item style={{ marginBottom: 20, fontSize: 24 }}>
-                        <Link to={APP_URL.SPEAKERS}>
+                    <Link to={APP_URL.SPEAKERS}>
+                        <LeftItem style={{ marginBottom: 20, fontSize: 24 }}>
                             &#8656; {/*двойная стрелка влево*/}
-                        </Link>
-                    </Item>
+                        </LeftItem>
+                    </Link>
                 </Grid>
                 <Grid item xs={3}>
                     <Item>
@@ -54,12 +49,18 @@ export function OneSpeakerPage() {
                         </Card>
                     </Item>
                 </Grid>
-                <Grid item xs={7}>
-                    <Item>
-                        <Typography variant="body1" color="text.secondary">
-                            {speaker.item.title}
+                <Grid item xs={7} justifyContent={"left"}>
+                    <LeftItem>
+                        <Typography variant="body1" color="text.secondary" component="div">
+                            {speaker.item.title
+                                .split(/\\n/gi).map(line => (
+                                    <Markdown key={line}>
+                                        {line}
+                                    </Markdown>
+                                ))
+                            }
                         </Typography>
-                    </Item>
+                    </LeftItem>
                 </Grid>
             </Grid>
         }

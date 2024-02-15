@@ -20,6 +20,7 @@ import { AuthStateContainer } from "./layouts/AuthStateContainer";
 import { SpeakersPage } from "./pages/SpeakersPage";
 import { OneSpeakerPage } from './pages/OneSpeakerPage';
 import { FirestoreInitPage } from './pages/FirestoreInitPage';
+import { OneReportPage } from './pages/OneReportPage';
 
 export function App() {
     const intl = useIntl()
@@ -70,6 +71,12 @@ export function App() {
                             <Route path={APP_URL.SPEAKER} element={
                                 <AuthRoute>
                                     <OneSpeakerPage />
+                                </AuthRoute>
+                            } />
+
+                            <Route path={APP_URL.REPORT} element={
+                                <AuthRoute>
+                                    <OneReportPage />
                                 </AuthRoute>
                             } />
 

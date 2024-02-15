@@ -1,7 +1,7 @@
 import { clearReports, insertReports, REPORTS_DATA } from "./insertReports";
 import { clearSpeakers, insertSpeakers, SPEAKER_DATA } from "./insertSpeakers";
 
-export async function insertData() {
+export async function insertData(): Promise<boolean> {
     console.log('script start');
 
     const isEmptyReports = await clearReports();
@@ -17,4 +17,5 @@ export async function insertData() {
     console.log('speakers end');
 
     console.log('script end');
+    return true;
 }

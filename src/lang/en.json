@@ -45,6 +45,7 @@
   "message.404": "Page not found!",
   "message.401": "Invalid user credential!",
   "text.name": "Name",
+  "text.fio": "Full name",
   "text.email": "Email",
   "text.password": "Password",
   "text.confirmPassword": "Re-type password",
@@ -52,5 +53,6 @@
   "text.no": "No",
   "text.confirm": "Confirm",
   "text.cancel": "Cancel",
+  "text.not.match": "No match",
   "empty.input.field": "Text fields cannot be empty!"
 }

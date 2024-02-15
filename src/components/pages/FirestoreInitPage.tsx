@@ -1,12 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { insertData } from "../../api/insertDatabase";
+import { CircularProgress } from "@mui/material";
 
 export function FirestoreInitPage() {
+    const [isDone, setIsDone] = useState<boolean>(false)
+
+    async function cleanAndInsert() {
+        const isSuccess = await insertData();
+        setIsDone(isSuccess);
+    }
+
     useEffect(() => {
-        insertData();
+        cleanAndInsert();
     }, [])
 
-    return <div>
-        Firestore init successfully!
-    </div>
+    return <>
+        {!isDone
+            ? <CircularProgress />
+            : <div>
+                Firestore init successfully!
+            </div>}
+    </>
 }
